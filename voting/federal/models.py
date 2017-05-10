@@ -10,7 +10,7 @@ class VoterRegistration(models.Model):
     last_updated_date = models.DateField(default=date.today)
 
     def __str__(self):
-        return "Registration Info for %s" % self.state
+        return "%s voter registration" % self.state
 
 class District(models.Model):
     """

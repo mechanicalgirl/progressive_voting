@@ -1,0 +1,7 @@
+{% for district in districts %}
+
+    <div>
+      <a href="/district/{{ district.state }}-{{ district.district }}/">{{ district.state }}-{{ district.district }}
+    </div>
+
+{% endfor %}

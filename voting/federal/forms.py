@@ -8,4 +8,4 @@ class CandidateModelForm(forms.ModelForm):
 
     class Meta:
         model = Candidate
-        fields = ['active', 'incumbent', 'running', 'party', 'district', 'position', 'name', 'url', 'twitter_handle', 'tweet_text', 'facebook_url', 'facebook_text', 'reasons_to_keep', 'reasons_to_vote_out', 'bio', 'comments']
+        fields = ['active', 'incumbent', 'party', 'district', 'position', 'name', 'url', 'twitter_handle', 'tweet_text', 'facebook_url', 'facebook_text', 'reasons_to_keep', 'reasons_to_vote_out', 'bio', 'comments']

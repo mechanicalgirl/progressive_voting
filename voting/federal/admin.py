@@ -35,12 +35,12 @@ class DistrictAdmin(admin.ModelAdmin):
     incumbent.short_description = "Incumbent"
 
     def district_candidate_count(self, obj):
-        return obj.candidate_set.filter(active=True, running=True).count()
+        return obj.candidate_set.filter(active=True).count()
     district_candidate_count.short_description = "Total Candidates"
 
 class CandidateAdmin(admin.ModelAdmin):
     ordering = ('district',)
-    list_display = ('name', 'active', 'incumbent', 'running', 'party', 'district', 'position',)
+    list_display = ('name', 'active', 'incumbent', 'party', 'district', 'position',)
     list_filter = ('district__state',)
     form = CandidateModelForm
 

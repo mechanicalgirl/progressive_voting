@@ -42,7 +42,6 @@ class District(models.Model):
 class Candidate(models.Model):
     active = models.BooleanField(default=True)
     incumbent = models.BooleanField(default=False)
-    running = models.BooleanField(default=True)
     party = models.CharField(max_length=1, choices=PARTY_CHOICES)
 
     district = models.ForeignKey(District)

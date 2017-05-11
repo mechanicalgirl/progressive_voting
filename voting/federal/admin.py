@@ -28,8 +28,9 @@ class DistrictAdmin(admin.ModelAdmin):
 
     def incumbent(self, obj):
         val = ''
-        if obj.candidate_set.filter(active=True, incumbent=True, party='D').count() >= 1:
-            val = 'D'
+        incumbent = obj.candidate_set.filter(active=True, incumbent=True)
+        if len(incumbent) > 0:
+            val = incumbent[0].party
         return val
     incumbent.short_description = "Incumbent"
 

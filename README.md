@@ -1,3 +1,8 @@
+There's a brief description of the project in the repo wiki:
+
+https://github.com/mechanicalgirl/progressive_voting/wiki
+
+
 Create a virtual environment:
 -----------------------------
 

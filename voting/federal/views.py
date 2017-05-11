@@ -4,8 +4,7 @@ from django.shortcuts import render
 from .models import District, Candidate, VoterRegistration
 
 def home(request):
-    print(request.build_absolute_uri())
-    if request.build_absolute_uri() == 'http://127.0.0.1:8000/':
+    if request.build_absolute_uri() == 'http://127.0.0.1:8000/' or request.path == '/preview/':
         d = District.objects.all()
         context = {
             'districts': d,

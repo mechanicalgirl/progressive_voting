@@ -18,7 +18,7 @@ To run locally:
 ```python
 cd ~/path/to/progressive_voting/
 source venv/bin/activate
-# pip install -r requirements.txt
+pip install -r requirements.txt
 cd voting
 python manage.py migrate
 python manage.py runserver

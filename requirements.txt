@@ -1,0 +1,6 @@
+Django==1.11.1
+facebook-sdk==2.0.0
+pytz==2017.2
+requests==2.12.4
+six==1.10.0
+tweepy==3.5.0

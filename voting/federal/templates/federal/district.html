@@ -16,6 +16,7 @@
             {%for i in incumbent %}
                 <p>
                 incumbent: {{ i.position }} {{ i.name }} ({{ i.party }})<br>
+                term_end: {{ i.term_end }}<br>
                 {% if i.party == 'R' %}
                     reasons_to_vote_out: {{ i.reasons_to_vote_out }}<br>
                 {% else %}

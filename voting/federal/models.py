@@ -43,6 +43,7 @@ class Candidate(models.Model):
     active = models.BooleanField(default=True)
     incumbent = models.BooleanField(default=False)
     party = models.CharField(max_length=1, choices=PARTY_CHOICES)
+    term_end = models.DateField('Term End', null=True, blank=True)
 
     district = models.ForeignKey(District)
     position = models.CharField(max_length=200, choices=POSITION_CHOICES)

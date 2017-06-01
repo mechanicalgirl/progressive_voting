@@ -12,21 +12,25 @@
   <tr valign="top">
     <td width="35%">
 
-      {% if incumbent %}
-        incumbent: {{ incumbent.position }} {{ incumbent.name }} ({{ incumbent.party }})<br>
-        {% if incumbent.party == 'R' %}
-            reasons_to_vote_out: {{ incumbent.reasons_to_vote_out }}<br>
-        {% else %}
-            reasons_to_keep: {{ incumbent.reasons_to_keep }}<br>
-            url: {{ incumbent.url }}<br>
-            twitter_handle: {{ incumbent.twitter_handle }}<br>
-            tweet_text: {{ incumbent.tweet_text }}<br>
-            facebook_url: {{ incumbent.facebook_url }}<br>
-            facebook_text: {{ incumbent.facebook_text }}<br>
-            bio: {{ incumbent.bio }}<br>
-            comments: {{ incumbent.comments }}<br>
+        {% if incumbent %}
+            {%for i in incumbent %}
+                <p>
+                incumbent: {{ i.position }} {{ i.name }} ({{ i.party }})<br>
+                {% if i.party == 'R' %}
+                    reasons_to_vote_out: {{ i.reasons_to_vote_out }}<br>
+                {% else %}
+                    reasons_to_keep: {{ i.reasons_to_keep }}<br>
+                    url: {{ i.url }}<br>
+                    twitter_handle: {{ i.twitter_handle }}<br>
+                    tweet_text: {{ i.tweet_text }}<br>
+                    facebook_url: {{ i.facebook_url }}<br>
+                    facebook_text: {{ i.facebook_text }}<br>
+                    bio: {{ i.bio }}<br>
+                    comments: {{ i.comments }}<br>
+                {% endif %}
+                </p>
+            {% endfor %}
         {% endif %}
-      {% endif %}
 
     </td>
     <td width="65%">

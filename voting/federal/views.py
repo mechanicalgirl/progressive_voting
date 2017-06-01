@@ -15,7 +15,7 @@ def home(request):
 def by_district(request, district):
     state, dist = district.split('-')
     d = District.objects.get(state=state, district=dist)
-    i = Candidate.objects.get(district=d.id, active=True, incumbent=True)
+    i = Candidate.objects.filter(district=d.id, active=True, incumbent=True)
     ic = Candidate.objects.filter(district=d.id, active=True, incumbent=False)
     context = {
         'district': d,

@@ -6,7 +6,7 @@ https://github.com/mechanicalgirl/progressive_voting/wiki
 Create a virtual environment:
 -----------------------------
 
-```python
+```python3
 cd ~/path/to/progressive_voting/
 virtualenv venv
 source venv/bin/activate
@@ -15,21 +15,21 @@ source venv/bin/activate
 To run locally:
 ---------------
 
-```python
+```python3
 cd ~/path/to/progressive_voting/
 source venv/bin/activate
 pip install -r requirements.txt
 cd voting
-python manage.py migrate
-python manage.py runserver
+python3 manage.py migrate
+python3 manage.py runserver
 ```
 
 To create a superuser (for admin access):
 -----------------------------------------
 
-```python
+```python3
 cd ~/path/to/progressive_voting/voting
-python manage.py createsuperuser
+python3 manage.py createsuperuser
 ```
 
 To view:

@@ -13,7 +13,7 @@ class CandidateInline(admin.StackedInline):
 
 class DistrictAdmin(admin.ModelAdmin):
     ordering = ('state', 'district',)
-    list_display = ('state', 'district_or_senate', 'incumbent', 'next_up', 'next_primary_date', 'next_election_date',)
+    list_display = ('state', 'district_or_senate', 'incumbent', 'next_up', 'district_candidate_count', 'next_primary_date', 'next_election_date',)
     list_filter = ('state',)
 
     inlines = [
@@ -48,8 +48,8 @@ class DistrictAdmin(admin.ModelAdmin):
         return None
 
     def district_candidate_count(self, obj):
-        return obj.candidate_set.filter(active=True).count()
-    district_candidate_count.short_description = "Total Candidates"
+        return obj.candidate_set.filter(active=True, incumbent=False).count()
+    district_candidate_count.short_description = "Challenging Candidates"
 
 class CandidateAdmin(admin.ModelAdmin):
     ordering = ('district',)

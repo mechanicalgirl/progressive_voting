@@ -1,8 +1,27 @@
-{% for district in district_groups %}
+<style>
+a.d:link {color: blue; text-decoration: none;}
+a.d:visited {color: blue; text-decoration: none;}
+a.d:hover {color: blue; text-decoration: underline;}
+a.d:active {color: blue; text-decoration: underline;}
 
-    <strong>{{ district.state_label }}</strong>: 
-    {% for district in district.districts %}
-      <a href="/district/{{ district.state }}-{{ district.district }}/">{{ district.state }}-{{ district.district }}</a>
+a.r:link {color: red; text-decoration: none;}
+a.r:visited {color: red; text-decoration: none;}
+a.r:hover {color: red; text-decoration: underline;}
+a.r:active {color: red; text-decoration: underline;}
+
+a:link {color: purple; text-decoration: none;}
+a:visited {color: purple; text-decoration: none;}
+a:hover {color: purple; text-decoration: underline;}
+a:active {color: purple; text-decoration: underline;}
+</style>
+
+
+{% for state_group in district_groups %}
+
+    <strong>{{ state_group.state_label }}</strong>: 
+
+    {% for d in state_group.districts %}
+      <a class="{{ d.incumbent }}" href="/district/{{ d.district.state }}-{{ d.district.district }}/"{% if d.incumbent_title %} title="{{ d.incumbent_title }}"{% endif %}>{{ d.district.state }}-{{ d.district.district }}</a> 
     {% endfor %}
     <br>
 

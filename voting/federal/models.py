@@ -48,7 +48,7 @@ class Candidate(models.Model):
     district = models.ForeignKey(District)
     position = models.CharField(max_length=200, choices=POSITION_CHOICES)
 
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
     url = models.CharField(max_length=200, null=True, blank=True)
 
     twitter_handle = models.CharField(max_length=100, null=True, blank=True)
@@ -61,6 +61,10 @@ class Candidate(models.Model):
     reasons_to_vote_out = models.TextField(null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["district", "position"]
+        unique_together = ("name", "district")
 
     def __str__(self):
         return "%s (%s) - %s" % (self.name, self.party, self.district)

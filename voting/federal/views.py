@@ -10,7 +10,23 @@ def home(request):
         district_groups = []
         for state in STATE_CHOICES:
             abbrev, label = state[0], state[1]
-            districts_by_state = District.objects.filter(state=abbrev)
+            districts_by_state = []
+            districts = District.objects.filter(state=abbrev)
+            for district in districts:
+                i = Candidate.objects.filter(district=district.id, active=True, incumbent=True)
+                val = ''
+                incumbent_title = 'Click through to see incumbent(s)'
+                if len(i) == 1:
+                    val = i[0].party.lower()
+                    if val == 'd':
+                        incumbent_title = 'Democratic Incumbent'
+                    if val == 'r':
+                        incumbent_title = 'Republican Incumbent'
+                if district.district == 'Senate' and len(i) == 2:
+                    val = '%s, %s' % (i[0].party.lower(), i[1].party.lower())
+                    incumbent_title = 'Multiple Incumbents'
+                d = {'district': district, 'incumbent': val, 'incumbent_title': incumbent_title}
+                districts_by_state.append(d)
             g = {'state_label': label, 'districts': districts_by_state}
             district_groups.append(g)
         context = {

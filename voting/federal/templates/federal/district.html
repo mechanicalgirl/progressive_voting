@@ -1,51 +1,77 @@
 <p>
-    state: {{ district.state }}<br>
-    district: {{ district.district }}<br>
-    voter_reg_url: {{ district.voter_reg_url.url }}<br>
-    next_primary_date: {{ district.next_primary_date }}<br>
-    next_early_vote_date_begin: {{ district.next_early_vote_date_begin }}<br>
-    next_early_vote_date_end: {{ district.next_early_vote_date_end }}<br>
-    next_election_date: {{ district.next_election_date }}<br>
+    State and District: {{ district.state }} - {{ district.district }}<br>
+    Register to Vote: <a href="{{ district.voter_reg_url.url }}" target="new">{{ district.voter_reg_url.url }}</a><br>
+    Next Primary: {% if district.next_primary_date %}{{ district.next_primary_date }}{% endif %}<br>
+    Early Voting: {% if district.next_early_vote_date_begin %}
+                      {{ district.next_early_vote_date_begin }} - {{ district.next_early_vote_date_end }}
+                  {% endif %}<br>
+    Next Election: {% if district.next_election_date %}{{ district.next_election_date }}{% endif %}<br>
 </p>
 
-<table>
+<table width="100%">
   <tr valign="top">
-    <td width="35%">
+    <td width="40%">
 
         {% if incumbent %}
             {%for i in incumbent %}
                 <p>
-                incumbent: {{ i.position }} {{ i.name }} ({{ i.party }})<br>
-                term_end: {{ i.term_end }}<br>
+                Incumbent: {{ i.position }} {{ i.name }} ({{ i.party }})<br>
                 {% if i.party == 'R' %}
-                    reasons_to_vote_out: {{ i.reasons_to_vote_out }}<br>
+                    When you can vote them out: 
+                    {% if i.term_end %}
+                        {{ i.term_end }}
+                    {% endif %}<br>
+                    {% if i.reasons_to_vote_out %}
+                        Why you should vote them out:
+                        <ul>{{ i.reasons_to_vote_out |safe }}</ul>
+                    {% endif %}
                 {% else %}
-                    reasons_to_keep: {{ i.reasons_to_keep }}<br>
-                    url: {{ i.url }}<br>
-                    twitter_handle: {{ i.twitter_handle }}<br>
+                    Next up for re-election: {% if i.term_end %}{{ i.term_end }}{% endif %}<br>
+                    {% if i.reasons_to_keep %}
+                        Why you should keep them in office:
+                        <ul>{{ i.reasons_to_keep |safe }}</ul>
+                    {% endif %}
+                    {% if i.url %}
+                        Web site: <a href="{{ i.url }}" target="new">{{ i.url }}</a><br>
+                    {% endif %}
+                    {% if i.twitter_handle %}
+                        Twitter: <a href="https://www.twitter.com/{{ i.twitter_handle }}" target="new">@{{ i.twitter_handle }}</a><br>
+                    {% endif %}
+                    {% if i.facebookurl %}
+                        Facebook: <a href="{{ i.facebook_url }}" target="new">{{ i.facebook_url }}</a><br>
+                    {% endif %}
+                    <!-- 
                     tweet_text: {{ i.tweet_text }}<br>
-                    facebook_url: {{ i.facebook_url }}<br>
                     facebook_text: {{ i.facebook_text }}<br>
                     bio: {{ i.bio }}<br>
                     comments: {{ i.comments }}<br>
+                    -->
                 {% endif %}
                 </p>
             {% endfor %}
         {% endif %}
 
     </td>
-    <td width="65%">
+    <td width="55%">
 
       {% for c in candidates %}
         <p>
-          candidate: {{ c.name }} ({{ c.party }})<br>
-          url: {{ c.url }}<br>
-          twitter_handle: {{ c.twitter_handle }}<br>
+          Candidate: {{ c.name }} ({{ c.party }})<br>
+          {% if c.url %}
+              Web site: <a href="{{ c.url }}" target="new">{{ c.url }}</a><br>
+          {% endif %}
+          {% if c.twitter_handle %}
+              Twitter: <a href="https://www.twitter.com/{{ c.twitter_handle }}" target="new">@{{ c.twitter_handle }}</a><br>
+          {% endif %}
+          {% if c.facebook_url %}
+              Facebook: <a href="{{ c.facebook_url }}" target="new">{{ c.facebook_url }}</a><br>
+          {% endif %}
+          <!-- 
           tweet_text: {{ c.tweet_text }}<br>
-          facebook_url: {{ c.facebook_url }}<br>
           facebook_text: {{ c.facebook_text }}<br>
           bio: {{ c.bio }}<br>
           comments: {{ c.comments }}<br>
+          -->
         </p>
       {% endfor %}
 

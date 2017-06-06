@@ -13,7 +13,7 @@ class CandidateInline(admin.StackedInline):
 
 class DistrictAdmin(admin.ModelAdmin):
     ordering = ('state', 'district',)
-    list_display = ('state', 'district_or_senate', 'incumbent', 'next_up', 'district_candidate_count', 'next_primary_date', 'next_election_date',)
+    list_display = ('state', 'district_or_senate', 'incumbent', 'district_candidate_count', 'next_primary_date', 'next_election_date',)
     list_filter = ('state',)
 
     inlines = [
@@ -43,7 +43,7 @@ class DistrictAdmin(admin.ModelAdmin):
             if c.term_end:
                 dates.append(c.term_end)
         if len(dates) > 0:
-            dates.sort(reverse=True)
+            dates.sort(reverse=False)
             return dates[0]
         return None
 

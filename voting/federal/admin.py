@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import District, Candidate, VoterRegistration
+from .models import District, Candidate, VoterRegistration, Messages
 from .forms import CandidateModelForm
 
 class VoterRegistrationAdmin(admin.ModelAdmin):
@@ -55,8 +55,15 @@ class CandidateAdmin(admin.ModelAdmin):
     ordering = ('district',)
     list_display = ('name', 'active', 'incumbent', 'party', 'district', 'position', 'term_end',)
     list_filter = ('district__state',)
+    search_fields = ('name',)
     form = CandidateModelForm
+
+class MessageAdmin(admin.ModelAdmin):
+    ordering = ('date_to_post',)
+    list_display = ('date_to_post', 'active', 'posted',)
+
 
 admin.site.register(District, DistrictAdmin)
 admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(VoterRegistration, VoterRegistrationAdmin)
+admin.site.register(Messages, MessageAdmin)

@@ -53,7 +53,7 @@ class DistrictAdmin(admin.ModelAdmin):
 
 class CandidateAdmin(admin.ModelAdmin):
     ordering = ('district',)
-    list_display = ('name', 'active', 'incumbent', 'party', 'district', 'position', 'term_end',)
+    list_display = ('name', 'candidate_id', 'active', 'incumbent', 'party', 'district', 'position', 'term_end',)
     list_filter = ('district__state',)
     search_fields = ('name',)
     form = CandidateModelForm

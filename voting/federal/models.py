@@ -48,7 +48,7 @@ class Candidate(models.Model):
 
     district = models.ForeignKey(District)
     position = models.CharField(max_length=200, choices=POSITION_CHOICES)
-
+    candidate_id = models.CharField(max_length=200, null=True, blank=True)
     name = models.CharField(max_length=200)
     url = models.CharField(max_length=200, null=True, blank=True)
 

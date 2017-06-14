@@ -18,7 +18,7 @@ a:active {color: purple; text-decoration: underline;}
 
 {% for state_group in district_groups %}
 
-    <strong>{{ state_group.state_label }}</strong>: 
+    <span style="color: {{ state_group.state_color }}; font-weight: bold;">{{ state_group.state_label }}</span>: 
 
     {% for d in state_group.districts %}
       <a class="{{ d.incumbent }}" href="/district/{{ d.district.state }}-{{ d.district.district }}/"{% if d.incumbent_title %} title="{{ d.incumbent_title }}"{% endif %}>{{ d.district.state }}-{{ d.district.district }}</a> 

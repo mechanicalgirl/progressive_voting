@@ -15,6 +15,8 @@ def home(request):
             abbrev, label = state[0], state[1]
             districts_by_state = []
             districts = District.objects.filter(state=abbrev)
+            color_total = float(len(districts)) + 1  ## add an extra for the two Senate seats, currently counted as one District obj
+            color_blue = 0
             for district in districts:
                 i = Candidate.objects.filter(district=district.id, active=True, incumbent=True)
                 val = ''
@@ -23,14 +25,29 @@ def home(request):
                     val = i[0].party.lower()
                     if val == 'd':
                         incumbent_title = 'Democratic Incumbent'
+                        color_blue += 1
                     if val == 'r':
                         incumbent_title = 'Republican Incumbent'
                 if district.district == 'Senate' and len(i) == 2:
                     val = '%s, %s' % (i[0].party.lower(), i[1].party.lower())
                     incumbent_title = 'Multiple Incumbents'
+                    if i[0].party.lower() == 'd':
+                        color_blue += 1
+                    if i[1].party.lower() == 'd':
+                        color_blue += 1
+
                 d = {'district': district, 'incumbent': val, 'incumbent_title': incumbent_title}
                 districts_by_state.append(d)
-            g = {'state_label': label, 'districts': districts_by_state}
+
+            percent_blue = round(color_blue/float(color_total), 1)
+            if percent_blue >= 0.6:
+                color_state = 'blue'
+            elif percent_blue < 0.6 and percent_blue >= 0.4:
+                color_state = 'purple'
+            else:
+                color_state = 'red'
+
+            g = {'state_label': label, 'state_color': color_state, 'districts': districts_by_state}
             district_groups.append(g)
         context = {
             'district_groups': district_groups,

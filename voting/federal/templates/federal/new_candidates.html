@@ -1,0 +1,17 @@
+<p>
+<h3>Added today:</h3>
+<table><tr><td><b>District</b></td><td><b>Name</b></td><td><b>Candidate ID</b></td></tr>
+{% for candidate in new %}
+  <tr><td>{{ candidate.0 }}</td><td>{{ candidate.1 }}</td><td>{{ candidate.2 }}</td></tr>
+{% endfor %}
+</table>
+</p>
+
+<p>
+<h3>For this cycle:</h3>
+<table><tr><td><b>District</b></td><td><b>Name</b></td><td><b>Candidate ID</b></td></tr>
+{% for candidate in all %}
+  <tr><td>{{ candidate.0 }}</td><td>{{ candidate.1 }}</td><td>{{ candidate.2 }}</td></tr>
+{% endfor %}
+</table>
+</p>

@@ -32,10 +32,10 @@ def search_candidates():
         all_candidates.sort()
         for c in all_candidates:
             print(c)
-            print("SELECT * FROM candidates WHERE candidate_id = '%s';" % c[2])
+            print("SELECT * FROM federal_candidate WHERE candidate_id = '%s';" % c[2])
             # if no result: get district.id
             print("SELECT id FROM federal_district WHERE state = %s AND district = %s;" % (c[0].split('-')[0], c[0].split('-')[1]))
-            print("INSERT INTO federal_candidates (name, district_id, candidate_id) VALUES ('%s', '%s', '%s')" % (c[1], 'district_id', c[2]))
+            print("INSERT INTO federal_candidate (name, district_id, candidate_id) VALUES ('%s', '%s', '%s')" % (c[1], 'district_id', c[2]))
 
 def parse_candidates(results):
     candidates_list = []

@@ -3,7 +3,7 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from .choices import STATE_CHOICES, PARTY_CHOICES, POSITION_CHOICES
+from .choices import STATE_CHOICES, PARTY_CHOICES, POSITION_CHOICES, DISTRICT_TYPE_CHOICES
 
 class VoterRegistration(models.Model):
     state = models.CharField(max_length=2, choices=STATE_CHOICES, unique=True)
@@ -21,7 +21,8 @@ class District(models.Model):
     """
 
     state = models.CharField(max_length=2, choices=STATE_CHOICES)
-    district = models.CharField(max_length=16, default="House")
+    district = models.IntegerField()
+    type = models.CharField(max_length=2, choices=DISTRICT_TYPE_CHOICES, default="H")
 
     # zip_codes - TBD
     # lat/lng or map info - TBD
@@ -34,11 +35,11 @@ class District(models.Model):
 
     class Meta:
         ordering = ["state", "district"]
-        unique_together = ("state", "district")
+        unique_together = ("state", "district", "type")
 
     def __str__(self):
         # self.get_level_display()
-        return "%s-%s" % (self.state, self.district)
+        return "%s-%s-%s" % (self.state, self.district, self.type)
 
 class Candidate(models.Model):
     active = models.BooleanField(default=True)

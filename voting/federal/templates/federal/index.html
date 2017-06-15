@@ -17,11 +17,21 @@ a:active {color: purple; text-decoration: underline;}
 
 
 {% for state_group in district_groups %}
-
     <span style="color: {{ state_group.state_color }}; font-weight: bold;">{{ state_group.state_label }}</span>: 
 
     {% for d in state_group.districts %}
-      <a class="{{ d.incumbent }}" href="/district/{{ d.district.state }}-{{ d.district.district }}/"{% if d.incumbent_title %} title="{{ d.incumbent_title }}"{% endif %}>{{ d.district.state }}-{{ d.district.district }}</a> 
+      
+      {% if d.district.type == 'H' %}        <a class="{{ d.incumbent }}" href="/district/{{ d.district.state }}-{{ d.district.district }}-{{ d.district.type }}/"{% if d.incumbent_title %} title="{{ d.incumbent_title }}"{% endif %}>{{ d.district.state }}-{{ d.district.district }}</a>  
+      {% endif %}
+    
+    {% endfor %}
+
+    {% for d in state_group.districts %}
+
+      {% if d.district.type == 'S' %}
+        <a class="{{ d.incumbent }}" href="/district/{{ d.district.state }}-{{ d.district.district }}-{{ d.district.type }}/"{% if d.incumbent_title %} title="{{ d.incumbent_title }}"{% endif %}>{{ d.district.state }} Senate, Class {{ d.district.district }}</a>  
+      {% endif %}
+
     {% endfor %}
     <br>
 

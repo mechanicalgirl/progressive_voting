@@ -63,3 +63,8 @@ POSITION_CHOICES = (
     (u'Senator', u'Senator'),
     (u'Other', u'Other'),
 )
+
+DISTRICT_TYPE_CHOICES = (
+    (u'H', u'House'),
+    (u'S', u'Senate'),
+)

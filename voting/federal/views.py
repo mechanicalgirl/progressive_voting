@@ -56,8 +56,8 @@ def home(request):
     return HttpResponse('')
 
 def by_district(request, district):
-    state, dist = district.split('-', 1)
-    d = District.objects.get(state=state, district=dist)
+    state, dist, type = district.split('-', 2)
+    d = District.objects.get(state=state, district=dist, type=type)
     i = Candidate.objects.filter(district=d.id, active=True, incumbent=True)
     ic = Candidate.objects.filter(district=d.id, active=True, incumbent=False)
     context = {

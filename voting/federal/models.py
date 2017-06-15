@@ -21,7 +21,7 @@ class District(models.Model):
     """
 
     state = models.CharField(max_length=2, choices=STATE_CHOICES)
-    district = models.CharField(max_length=8, default="Senate")
+    district = models.CharField(max_length=16, default="House")
 
     # zip_codes - TBD
     # lat/lng or map info - TBD

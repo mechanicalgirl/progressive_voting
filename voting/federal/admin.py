@@ -22,7 +22,7 @@ class DistrictAdmin(admin.ModelAdmin):
 
     def district_or_senate(self, obj):
         val = obj.district
-        if obj.district != 'Senate':
+        if not obj.district.startswith('Senate'):
             val = 'House %s' % obj.district
         return val
 

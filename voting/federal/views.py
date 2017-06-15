@@ -15,7 +15,7 @@ def home(request):
             abbrev, label = state[0], state[1]
             districts_by_state = []
             districts = District.objects.filter(state=abbrev)
-            color_total = float(len(districts)) + 1  ## add an extra for the two Senate seats, currently counted as one District obj
+            color_total = float(len(districts))
             color_blue = 0
             for district in districts:
                 i = Candidate.objects.filter(district=district.id, active=True, incumbent=True)

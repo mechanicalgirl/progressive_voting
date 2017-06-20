@@ -58,11 +58,16 @@ def home(request):
 def by_district(request, district):
     state, dist, type = district.split('-', 2)
     d = District.objects.get(state=state, district=dist, type=type)
-    i = Candidate.objects.filter(district=d.id, active=True, incumbent=True)
+    inc = Candidate.objects.get(district=d.id, active=True, incumbent=True)
+    incumbent_reasons = []
+    for r in inc.reasons.values():
+        if r['active'] is True:
+            incumbent_reasons.append(r)
     ic = Candidate.objects.filter(district=d.id, active=True, incumbent=False)
     context = {
         'district': d,
-        'incumbent': i,
+        'incumbent': inc,
+        'incumbent_reasons': incumbent_reasons,
         'candidates': ic,
     }
     return render(request, 'federal/district.html', context)

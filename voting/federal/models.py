@@ -13,6 +13,7 @@ class VoterRegistration(models.Model):
     def __str__(self):
         return "%s voter registration" % self.state
 
+
 class District(models.Model):
     """
     House districts, Senate seats at Federal level
@@ -41,6 +42,17 @@ class District(models.Model):
         # self.get_level_display()
         return "%s-%s-%s" % (self.state, self.district, self.type)
 
+class Reasons(models.Model):
+    active = models.BooleanField(default=True)
+    type = models.CharField(max_length=4, choices=((u'O', u'Vote Out'), (u'I', u'Keep In'),))
+    reason_text = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name_plural = "reasons"
+
+    def __str__(self):
+        return "(%s) %s" % (self.type, self.reason_text)
+
 class Candidate(models.Model):
     active = models.BooleanField(default=True)
     incumbent = models.BooleanField(default=False)
@@ -56,8 +68,8 @@ class Candidate(models.Model):
     twitter_handle = models.CharField(max_length=100, null=True, blank=True)
     facebook_url = models.CharField(max_length=200, null=True, blank=True)
 
-    reasons_to_keep = models.TextField('Reasons to Keep/Elect', null=True, blank=True)
-    reasons_to_vote_out = models.TextField(null=True, blank=True)
+    reasons = models.ManyToManyField(Reasons, blank=True)
+
     bio = models.TextField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
 
@@ -67,6 +79,7 @@ class Candidate(models.Model):
 
     def __str__(self):
         return "%s (%s) - %s" % (self.name, self.party, self.district)
+
 
 class Messages(models.Model):
     active = models.BooleanField(default=True)

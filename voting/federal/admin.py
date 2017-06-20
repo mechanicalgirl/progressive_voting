@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import District, Candidate, VoterRegistration, Messages
+from .models import District, Candidate, Reasons, VoterRegistration, Messages
 from .forms import CandidateModelForm
 
 class VoterRegistrationAdmin(admin.ModelAdmin):
@@ -10,6 +10,9 @@ class VoterRegistrationAdmin(admin.ModelAdmin):
 class CandidateInline(admin.StackedInline):
     model = Candidate
     extra = 1
+
+class ReasonsAdmin(admin.ModelAdmin):
+    list_display = ('active', 'type', 'reason_text',)
 
 class DistrictAdmin(admin.ModelAdmin):
     ordering = ('state', 'type', 'district',)
@@ -61,3 +64,4 @@ admin.site.register(District, DistrictAdmin)
 admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(VoterRegistration, VoterRegistrationAdmin)
 admin.site.register(Messages, MessageAdmin)
+admin.site.register(Reasons, ReasonsAdmin)

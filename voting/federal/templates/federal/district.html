@@ -13,44 +13,55 @@
     <td width="40%">
 
         {% if incumbent %}
-            {%for i in incumbent %}
-                <p>
-                Incumbent: {{ i.position }} {{ i.name }} ({{ i.party }})<br>
-                {% if i.party == 'R' %}
-                    When you can vote them out: 
-                    {% if i.term_end %}
-                        {{ i.term_end }}
-                    {% endif %}<br>
-                    {% if i.reasons_to_vote_out %}
-                        Why you should vote them out:
-                        <ul>{{ i.reasons_to_vote_out |safe }}</ul>
+            <h4>Incumbent:</h4>
+            <p>
+            {{ incumbent.position }} {{ incumbent.name }} ({{ incumbent.party }})<br>
+                {% if incumbent.party == 'R' %}
+                    <p>When you can vote them out: 
+                    {% if incumbent.term_end %}
+                        {{ incumbent.term_end }}
+                    {% endif %}</p>
+                    {% if incumbent_reasons %}
+                        <p>Why you should vote them out:</p>
+                        <ul>
+                        {% for r in incumbent_reasons %}
+                            <li>{{ r.reason_text |safe }}</li>
+                        {% endfor %}
+                        </ul>
                     {% endif %}
                 {% else %}
-                    Next up for re-election: {% if i.term_end %}{{ i.term_end }}{% endif %}<br>
-                    {% if i.reasons_to_keep %}
-                        Why you should keep them in office:
-                        <ul>{{ i.reasons_to_keep |safe }}</ul>
+                    Next up for re-election: {% if incumbent.term_end %}{{ incumbent.term_end }}{% endif %}<br>
+                    {% if incumbent_reasons %}
+                        <p>Why you should keep them in office:</p>
+                        <ul>
+                        {% for r in incumbent_reasons %}
+                            <li>{{ r.reason_text |safe }}</li>
+                        {% endfor %}
+                        </ul>
                     {% endif %}
-                    {% if i.url %}
-                        Web site: <a href="{{ i.url }}" target="new">{{ i.url }}</a><br>
+                    {% if incumbent.url %}
+                        Web site: <a href="{{ incumbent.url }}" target="new">{{ incumbent.url }}</a><br>
                     {% endif %}
-                    {% if i.twitter_handle %}
-                        Twitter: <a href="https://www.twitter.com/{{ i.twitter_handle }}" target="new">@{{ i.twitter_handle }}</a><br>
+                    {% if incumbent.twitter_handle %}
+                        Twitter: <a href="https://www.twitter.com/{{ incumbent.twitter_handle }}" target="new">@{{ incumbent.twitter_handle }}</a><br>
                     {% endif %}
-                    {% if i.facebookurl %}
-                        Facebook: <a href="{{ i.facebook_url }}" target="new">{{ i.facebook_url }}</a><br>
+                    {% if incumbent.facebookurl %}
+                        Facebook: <a href="{{ incumbent.facebook_url }}" target="new">{{ incumbent.facebook_url }}</a><br>
                     {% endif %}
                     <!-- 
-                    bio: {{ i.bio }}<br>
-                    comments: {{ i.comments }}<br>
+                    bio: {{ incumbent.bio }}<br>
+                    comments: {{ incumbent.comments }}<br>
                     -->
                 {% endif %}
                 </p>
-            {% endfor %}
         {% endif %}
 
     </td>
     <td width="55%">
+
+      {% if candidates %}
+          <h4>Who's running against them:</h4>
+      {% endif %}
 
       {% for c in candidates %}
         <p>

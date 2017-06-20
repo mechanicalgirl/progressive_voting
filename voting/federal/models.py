@@ -13,6 +13,16 @@ class VoterRegistration(models.Model):
     def __str__(self):
         return "%s voter registration" % self.state
 
+class UnitedStatesMap(models.Model):
+    """
+    A collection of state dimensions to fill in a US map
+    """
+    path = models.CharField(max_length=2, choices=STATE_CHOICES, unique=True)
+    fill = models.CharField(max_length=6, default='D3D3D3')
+    dimensions = models.TextField()
+
+    def __str__(self):
+        return "%s map" % self.path
 
 class District(models.Model):
     """

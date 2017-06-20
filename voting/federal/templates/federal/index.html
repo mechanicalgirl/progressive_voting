@@ -1,38 +1,25 @@
 <style>
-a.d:link {color: blue; text-decoration: none;}
-a.d:visited {color: blue; text-decoration: none;}
-a.d:hover {color: blue; text-decoration: underline;}
-a.d:active {color: blue; text-decoration: underline;}
+  {% for state in state_list %}
+    #{{ state.abbrev }} { fill: {{ state.color }} !important }
+  {% endfor %}
 
-a.r:link {color: red; text-decoration: none;}
-a.r:visited {color: red; text-decoration: none;}
-a.r:hover {color: red; text-decoration: underline;}
-a.r:active {color: red; text-decoration: underline;}
-
-a:link {color: purple; text-decoration: none;}
-a:visited {color: purple; text-decoration: none;}
-a:hover {color: purple; text-decoration: underline;}
-a:active {color: purple; text-decoration: underline;}
+  #us-map {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>
 
-
-{% for state_group in district_groups %}
-    <span style="color: {{ state_group.state_color }}; font-weight: bold;">{{ state_group.state_label }}</span>: 
-
-    {% for d in state_group.districts %}
-      
-      {% if d.district.type == 'H' %}        <a class="{{ d.incumbent }}" href="/district/{{ d.district.state }}-{{ d.district.district }}-{{ d.district.type }}/"{% if d.incumbent_title %} title="{{ d.incumbent_title }}"{% endif %}>{{ d.district.state }}-{{ d.district.district }}</a>  
-      {% endif %}
-    
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="us-map">
+<title>US States Map</title>
+<g id="outlines">
+    {% for state in state_list %}
+        <a href="/state/{{ state.abbrev }}/"><path id="{{ state.abbrev }}" fill="#D3D3D3" d="{{ state.map_dimension }}"/></a>
     {% endfor %}
-
-    {% for d in state_group.districts %}
-
-      {% if d.district.type == 'S' %}
-        <a class="{{ d.incumbent }}" href="/district/{{ d.district.state }}-{{ d.district.district }}-{{ d.district.type }}/"{% if d.incumbent_title %} title="{{ d.incumbent_title }}"{% endif %}>{{ d.district.state }} Senate, Class {{ d.district.district }}</a>  
-      {% endif %}
-
-    {% endfor %}
-    <br>
-
-{% endfor %}
+</g>
+<path id="frames" fill="none" stroke="#A9A9A9" stroke-width="2" d="M215,493v55l36,45 M0,425h147l68,68h85l54,54v46"/>
+</svg>

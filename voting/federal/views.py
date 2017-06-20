@@ -4,40 +4,22 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .models import District, Candidate, VoterRegistration
+from .models import District, Candidate, VoterRegistration, UnitedStatesMap
 from .choices import STATE_CHOICES
 
 def home(request):
     if request.build_absolute_uri() == 'http://127.0.0.1:8000/' or request.path == '/preview/':
         d = District.objects.all()
-        district_groups = []
+        state_list = []
         for state in STATE_CHOICES:
             abbrev, label = state[0], state[1]
-            districts_by_state = []
             districts = District.objects.filter(state=abbrev)
             color_total = float(len(districts))
             color_blue = 0
             for district in districts:
                 i = Candidate.objects.filter(district=district.id, active=True, incumbent=True)
-                val = ''
-                incumbent_title = 'Click through to see incumbent(s)'
-                if len(i) == 1:
-                    val = i[0].party.lower()
-                    if val == 'd':
-                        incumbent_title = 'Democratic Incumbent'
-                        color_blue += 1
-                    if val == 'r':
-                        incumbent_title = 'Republican Incumbent'
-                if district.district == 'Senate' and len(i) == 2:
-                    val = '%s, %s' % (i[0].party.lower(), i[1].party.lower())
-                    incumbent_title = 'Multiple Incumbents'
-                    if i[0].party.lower() == 'd':
-                        color_blue += 1
-                    if i[1].party.lower() == 'd':
-                        color_blue += 1
-
-                d = {'district': district, 'incumbent': val, 'incumbent_title': incumbent_title}
-                districts_by_state.append(d)
+                if i[0].party.lower() == 'd':
+                    color_blue += 1
 
             percent_blue = round(color_blue/float(color_total), 1)
             if percent_blue >= 0.6:
@@ -47,13 +29,31 @@ def home(request):
             else:
                 color_state = 'red'
 
-            g = {'state_label': label, 'state_color': color_state, 'districts': districts_by_state}
-            district_groups.append(g)
+            map = UnitedStatesMap.objects.get(path=abbrev)
+
+            g = {'abbrev': abbrev, 'label': label, 'color': color_state, 'map_dimension': map.dimensions}
+            state_list.append(g)
         context = {
-            'district_groups': district_groups,
+            'state_list': state_list,
         }
         return render(request, 'federal/index.html', context)
     return HttpResponse('')
+
+def by_state(request, state):
+    districts = District.objects.filter(state=state)
+    district_list = []
+    for district in districts:
+        i = Candidate.objects.get(district=district.id, active=True, incumbent=True)
+        if i.party.lower() == 'd':
+            color_dist = 'blue'
+        else:
+            color_dist = 'red'
+        d = {'district': district, 'color': color_dist}
+        district_list.append(d)
+    context = {
+        'district_list': district_list,
+    }
+    return render(request, 'federal/state.html', context)
 
 def by_district(request, district):
     state, dist, type = district.split('-', 2)

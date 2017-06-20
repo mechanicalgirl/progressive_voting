@@ -1,0 +1,6 @@
+
+{% for district in district_list %}
+
+  <a href="/district/{{ district.district }}/" style="color: {{ district.color }};" title="{{ district.incumbent_title }}">{{ district.district }}</a><br>
+
+{% endfor %}

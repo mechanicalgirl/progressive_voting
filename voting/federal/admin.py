@@ -1,11 +1,15 @@
 from django.contrib import admin
 
-from .models import District, Candidate, Reasons, VoterRegistration, Messages
+from .models import District, Candidate, Reasons, VoterRegistration, Messages, UnitedStatesMap
 from .forms import CandidateModelForm
 
 class VoterRegistrationAdmin(admin.ModelAdmin):
     ordering = ('state',)
     list_display = ('state', 'url', 'last_updated_date',)
+
+class UnitedStatesMapAdmin(admin.ModelAdmin):
+    ordering = ('path',)
+    list_display = ('path',)
 
 class CandidateInline(admin.StackedInline):
     model = Candidate
@@ -65,3 +69,4 @@ admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(VoterRegistration, VoterRegistrationAdmin)
 admin.site.register(Messages, MessageAdmin)
 admin.site.register(Reasons, ReasonsAdmin)
+admin.site.register(UnitedStatesMap, UnitedStatesMapAdmin)

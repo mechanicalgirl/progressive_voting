@@ -20,37 +20,25 @@ class ReasonsAdmin(admin.ModelAdmin):
 
 class DistrictAdmin(admin.ModelAdmin):
     ordering = ('state', 'type', 'district',)
-    list_display = ('state', 'type', 'district', 'incumbent', 'district_candidate_count', 'next_primary_date', 'next_election_date',)
+    list_display = ('full_district', 'state', 'type', 'district', 'incumbent', 'district_candidate_count', 'next_primary_date', 'next_election_date',)
     list_filter = ('state',)
 
     inlines = [
         CandidateInline,
     ]
 
-    def incumbent(self, obj):
-        val = ''
-        incumbent = obj.candidate_set.filter(active=True, incumbent=True)
-        if len(incumbent) == 1:
-            val = incumbent[0].party
-        if obj.district == 'Senate' and len(incumbent) == 2:
-            val = '%s, %s' % (incumbent[0].party, incumbent[1].party)
-        return val
-    incumbent.short_description = "Incumbent"
+    def full_district(self, obj):
+        return ("%s-%s-%s" % (obj.state, obj.district, obj.type))
+    full_district.short_description = 'District'
 
-    def next_up(self, obj):
-        candidates = obj.candidate_set.filter(active=True)
-        dates = []
-        for c in candidates:
-            if c.term_end:
-                dates.append(c.term_end)
-        if len(dates) > 0:
-            dates.sort(reverse=False)
-            return dates[0]
-        return None
+    def incumbent(self, obj):
+        incumbent = obj.candidate_set.get(active=True, incumbent=True)
+        return incumbent.party
+    incumbent.short_description = "Incumbent"
 
     def district_candidate_count(self, obj):
         return obj.candidate_set.filter(active=True, incumbent=False).count()
-    district_candidate_count.short_description = "Challenging Candidates"
+    district_candidate_count.short_description = "Challengers"
 
 class CandidateAdmin(admin.ModelAdmin):
     ordering = ('district', 'position')

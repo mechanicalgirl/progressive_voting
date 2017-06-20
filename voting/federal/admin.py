@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import District, Candidate, Reasons, VoterRegistration, Messages, UnitedStatesMap
 from .forms import CandidateModelForm
@@ -11,12 +12,27 @@ class UnitedStatesMapAdmin(admin.ModelAdmin):
     ordering = ('path',)
     list_display = ('path',)
 
+class ReasonsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'get_type', 'active', 'reason_text', 'get_candidates')
+    search_fields = ('reason_text',)
+
+    def get_candidates(self, obj):
+        associated_candidates = obj.candidate_set.filter(active=True)
+        return len(associated_candidates)
+    get_candidates.short_description = 'Count'
+
+    def get_type(self, obj):
+        if obj.type == 'I':
+            color = 'green'
+        else:
+            color = 'red'
+        div = '<div style="width: 6px; border: 2px solid %s; padding: 0px; margin: 0px;"></div>' % color
+        return format_html(div)
+    get_type.short_description = 'Type'
+
 class CandidateInline(admin.StackedInline):
     model = Candidate
     extra = 1
-
-class ReasonsAdmin(admin.ModelAdmin):
-    list_display = ('active', 'type', 'reason_text',)
 
 class DistrictAdmin(admin.ModelAdmin):
     ordering = ('state', 'type', 'district',)

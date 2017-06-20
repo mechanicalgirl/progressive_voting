@@ -21,6 +21,10 @@ class UnitedStatesMap(models.Model):
     fill = models.CharField(max_length=6, default='D3D3D3')
     dimensions = models.TextField()
 
+    class Meta:
+        verbose_name_plural = "US Map Coordinates"
+        verbose_name = "US Map Coordinates"
+
     def __str__(self):
         return "%s map" % self.path
 

@@ -18,7 +18,7 @@
 <title>US States Map</title>
 <g id="outlines">
     {% for state in state_list %}
-        <a href="/state/{{ state.abbrev }}/"><path id="{{ state.abbrev }}" fill="#D3D3D3" d="{{ state.map_dimension }}"/></a>
+        <a xlink:href="/state/{{ state.abbrev }}/"><path id="{{ state.abbrev }}" fill="#D3D3D3" d="{{ state.map_dimension }}"/></a>
     {% endfor %}
 </g>
 <path id="frames" fill="none" stroke="#A9A9A9" stroke-width="2" d="M215,493v55l36,45 M0,425h147l68,68h85l54,54v46"/>

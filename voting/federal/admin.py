@@ -15,6 +15,17 @@ class UnitedStatesMapAdmin(admin.ModelAdmin):
 class ReasonsAdmin(admin.ModelAdmin):
     list_display = ('id', 'get_type', 'active', 'reason_text', 'get_candidates')
     search_fields = ('reason_text',)
+    readonly_fields = ('reason_candidates',)
+
+    def reason_candidates(self, obj):
+        associated_candidates = []
+        candidates = obj.candidate_set.filter(active=True)
+        for c in candidates:
+            can = '<a href="/admin/federal/candidate/%s/" target="new">%s (%s) - %s-%s (%s)</a>' % \
+                (c.id, c.name, c.party, c.district.state, c.district.district, c.district.type)
+            associated_candidates.append(can)
+        a = '<br>\n'.join(associated_candidates)
+        return format_html(a)
 
     def get_candidates(self, obj):
         associated_candidates = obj.candidate_set.filter(active=True)

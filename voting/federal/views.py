@@ -1,7 +1,8 @@
+import json
 import sys
 import requests
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 from .models import District, Candidate, VoterRegistration, UnitedStatesMap
@@ -38,6 +39,35 @@ def home(request):
         }
         return render(request, 'federal/index.html', context)
     return HttpResponse('')
+
+def homejson(request):
+    d = District.objects.all()
+    state_list = []
+    for state in STATE_CHOICES:
+        abbrev, label = state[0], state[1]
+        districts = District.objects.filter(state=abbrev)
+        color_total = float(len(districts))
+        color_blue = 0
+        for district in districts:
+            i = Candidate.objects.filter(district=district.id, active=True, incumbent=True)
+            if i[0].party.lower() == 'd':
+                color_blue += 1
+
+        percent_blue = round(color_blue/float(color_total), 1)
+        if percent_blue >= 0.6:
+            color_state = 'blue'
+        elif percent_blue < 0.6 and percent_blue >= 0.4:
+            color_state = 'purple'
+        else:
+            color_state = 'red'
+
+        map = UnitedStatesMap.objects.get(path=abbrev)
+
+        g = {'abbrev': abbrev, 'label': label, 'color': color_state, 'map_dimension': map.dimensions}
+        state_list.append(g)
+
+    map = {'map': state_list}
+    return JsonResponse(map)
 
 def by_state(request, state):
     districts = District.objects.filter(state=state)

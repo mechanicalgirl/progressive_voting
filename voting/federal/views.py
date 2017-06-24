@@ -104,9 +104,11 @@ def by_district(request, district):
 
 def get_new_candidates(request):
     """
-    https://api.open.fec.gov/v1/candidates/search/?api_key=voQZ63Obcja8S2338pgGANCeSYmPMV0akuE49hS4&candidate_status=C&party=DEM&incumbent_challenge=C
-    candidate_status -> One-letter code explaining if the candidate is: C (present candidate), F (future candidate), N (not yet a candidate), P (prior candidate)
-    incumbent_challenge -> 'One-letter code ('I', 'C', 'O') explaining if the candidate is an incumbent, a challenger, or if the seat is open.'
+    https://api.open.fec.gov/v1/candidates/search/?
+        api_key=voQZ63Obcja8S2338pgGANCeSYmPMV0akuE49hS4
+        &candidate_status=C&party=DEM&incumbent_challenge=C
+    candidate_status -> One-letter code: C (present candidate), F (future candidate), N (not yet a candidate), P (prior candidate)
+    incumbent_challenge -> 'One-letter code ('I', 'C', 'O') - incumbent, challenger, or the seat is open.'
     """
 
     api_key = 'voQZ63Obcja8S2338pgGANCeSYmPMV0akuE49hS4'
@@ -133,6 +135,7 @@ def get_new_candidates(request):
 
         all_candidates.sort()
         for c in all_candidates:
+            # look for a candidate by FEC candidate_id
             candidate = Candidate.objects.get(candidate_id=c[2])
             if not candidate:
                 district = District.objects.get(state=c[0].split('-')[0], district=c[0].split('-')[1])

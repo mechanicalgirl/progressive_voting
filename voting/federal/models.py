@@ -59,7 +59,8 @@ class District(models.Model):
 class Reasons(models.Model):
     active = models.BooleanField(default=True)
     type = models.CharField(max_length=4, choices=((u'O', u'Vote Out'), (u'I', u'Keep In'),))
-    reason_text = models.CharField(max_length=200)
+    reason_title = models.CharField(max_length=50, null=True, blank=True)
+    reason_text = models.TextField()
 
     class Meta:
         verbose_name_plural = "reasons"

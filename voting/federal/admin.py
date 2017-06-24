@@ -13,7 +13,7 @@ class UnitedStatesMapAdmin(admin.ModelAdmin):
     list_display = ('path',)
 
 class ReasonsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'get_type', 'active', 'reason_text', 'get_candidates')
+    list_display = ('id', 'reason_title', 'type', 'active', 'reason_text', 'get_candidates')
     search_fields = ('reason_text',)
     readonly_fields = ('reason_candidates',)
 

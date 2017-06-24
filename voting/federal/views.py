@@ -5,7 +5,7 @@ import requests
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
-from .models import District, Candidate, VoterRegistration, UnitedStatesMap
+from .models import District, Candidate, VoterRegistration, UnitedStatesMap, Reasons
 from .choices import STATE_CHOICES
 
 def home(request):
@@ -101,6 +101,23 @@ def by_district(request, district):
         'candidates': ic,
     }
     return render(request, 'federal/district.html', context)
+
+def by_reason(request, reason=None):
+    all_reasons = Reasons.objects.filter(active=True, type='O')
+
+    specific_reason = ''
+    candidates = []
+    if reason:
+        specific_reason = Reasons.objects.get(id=reason, active=True, type='O')
+        candidates = specific_reason.candidate_set.filter(active=True)
+
+    context = {
+        'all_reasons': all_reasons,
+        'specific_reason': specific_reason,
+        'candidates': candidates,
+    }
+    return render(request, 'federal/reasons.html', context)
+
 
 def get_new_candidates(request):
     """

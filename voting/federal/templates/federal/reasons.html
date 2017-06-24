@@ -1,0 +1,39 @@
+<style>
+#wrapper {
+     width: 1005px;
+     margin: 10 auto;
+}
+#leftcolumn, #rightcolumn {
+    float: left;
+}
+#leftcolumn {
+     width: 250px;
+}
+#rightcolumn {
+     width: 750px;
+}
+</style>
+
+<div id="wrapper">
+    <div id="leftcolumn">
+
+      {% for reason in all_reasons %}
+          <b><a href="/reason/{{ reason.id }}/">{{ reason.reason_title }}</a></b><br>
+      {% endfor %}
+
+    </div>
+    <div id="rightcolumn">
+
+        {% if specific_reason %}
+            <h3>{{ specific_reason.reason_title }}</h3>
+            {{ specific_reason.reason_text |safe }}<br>
+
+            <p>(Click through to find and donate to their opponents.)</p>
+
+            {% for c in candidates %}
+                <a href="/district/{{ c.district.state }}-{{ c.district.district }}-{{ c.district.type }}/">{{ c.name }} ({{ c.party }}) - {{ c.district.state }}-{{ c.district.district }} ({{ c.district.type }})</a><br>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</div>

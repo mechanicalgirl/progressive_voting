@@ -66,7 +66,7 @@ class Reasons(models.Model):
         verbose_name_plural = "reasons"
 
     def __str__(self):
-        return "(%s) %s" % (self.type, self.reason_text)
+        return "(%s) %s" % (self.type, self.reason_title)
 
 class Candidate(models.Model):
     active = models.BooleanField(default=True)

@@ -60,7 +60,7 @@ class DistrictAdmin(admin.ModelAdmin):
 
     def incumbent(self, obj):
         incumbent = obj.candidate_set.get(active=True, incumbent=True)
-        return incumbent.party
+        return "%s (%s)" % (incumbent.name, incumbent.party)
     incumbent.short_description = "Incumbent"
 
     def district_candidate_count(self, obj):

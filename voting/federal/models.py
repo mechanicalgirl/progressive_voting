@@ -86,7 +86,7 @@ class Candidate(models.Model):
     reasons = models.ManyToManyField(Reasons, blank=True)
 
     bio = models.TextField(null=True, blank=True)
-    comments = models.TextField(null=True, blank=True)
+    comments = models.TextField('Comments (Internal Use Only)', null=True, blank=True)
 
     class Meta:
         ordering = ["district", "position"]

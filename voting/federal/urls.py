@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^district/(?P<district>.+)/$',  views.by_district,         name='by_district'),
     url(r'^reason/$',                     views.by_reason,           name='by_reason'),
     url(r'^reason/(?P<reason>.+)/$',      views.by_reason,           name='by_reason'),
+    url(r'^search/$',                     views.search_by_name,      name='search_by_name'),
     # url(r'^get_ids/$',                  views.get_ids,             name='get_ids'),
     url(r'^newcandidates/$',              views.get_new_candidates,  name='get_new_candidates'),
 ]

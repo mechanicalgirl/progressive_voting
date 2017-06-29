@@ -7,6 +7,8 @@ from django.shortcuts import render
 
 from .models import District, Candidate, VoterRegistration, UnitedStatesMap, Reasons
 from .choices import STATE_CHOICES
+from .forms import SearchForm
+
 
 def home(request):
     if request.build_absolute_uri() == 'http://127.0.0.1:8000/' or request.path == '/preview/':
@@ -40,6 +42,7 @@ def home(request):
         return render(request, 'federal/index.html', context)
     return HttpResponse('')
 
+
 def homejson(request):
     d = District.objects.all()
     state_list = []
@@ -69,6 +72,7 @@ def homejson(request):
     map = {'map': state_list}
     return JsonResponse(map)
 
+
 def by_state(request, state):
     districts = District.objects.filter(state=state)
     district_list = []
@@ -84,6 +88,7 @@ def by_state(request, state):
         'district_list': district_list,
     }
     return render(request, 'federal/state.html', context)
+
 
 def by_district(request, district):
     state, dist, type = district.split('-', 2)
@@ -102,6 +107,7 @@ def by_district(request, district):
     }
     return render(request, 'federal/district.html', context)
 
+
 def by_reason(request, reason=None):
     all_reasons = Reasons.objects.filter(active=True, type='O')
 
@@ -117,6 +123,23 @@ def by_reason(request, reason=None):
         'candidates': candidates,
     }
     return render(request, 'federal/reasons.html', context)
+
+
+def search_by_name(request):
+    candidates = ''
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            name_string = form.cleaned_data['name']
+            search_results = Candidate.objects.filter(name__contains=name_string)
+            candidates = search_results
+    else:
+        form = SearchForm()
+    context = {
+        'form': form,
+        'candidates': candidates,
+    }
+    return render(request, 'federal/search.html', context)
 
 
 def get_new_candidates(request):

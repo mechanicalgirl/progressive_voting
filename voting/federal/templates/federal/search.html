@@ -1,0 +1,13 @@
+
+<form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% if candidates %}
+    <h4>Results:</h4>
+    {% for c in candidates %}
+        <a href="/district/{{ c.district }}/">{{ c.name }} ({{ c.party }}) {{ c.district.state }}-{{ c.district.district }}</a><br>
+    {% endfor %}
+{% endif %}

@@ -25,7 +25,10 @@
                         <p>Why you should vote them out:</p>
                         <ul>
                         {% for r in incumbent_reasons %}
-                            <li>{{ r.reason_text |safe }}</li>
+                            <li>
+                                <b>{{ r.reason_title }}</b><br>
+                                {{ r.reason_text |safe }}
+                            </li>
                         {% endfor %}
                         </ul>
                     {% endif %}

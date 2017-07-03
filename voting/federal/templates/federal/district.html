@@ -84,9 +84,8 @@
           {% if c.facebook_url %}
               Facebook: <a href="{{ c.facebook_url }}" target="new">{{ c.facebook_url }}</a><br>
           {% endif %}
-          {% if candidate.bio %}
-            <ul>
-              {{ candidate.bio |safe }}
+          {% if c.bio %}
+              {{ c.bio |safe }}
             </ul>
           {% endif %}
 
